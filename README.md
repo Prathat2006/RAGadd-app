@@ -216,7 +216,7 @@ If you find this project helpful, please consider giving it a star!
 ---
 
 <div align="center">
-  <img src="static/RAGadd.png" alt="RAGadd AI" width="100"/>
+  <img src="static/Logo.png" alt="RAGadd AI" width="100"/>
   <br>
   <strong>RAGadd AI - Transform Your Documents into Interactive Knowledge</strong>
   <br>
