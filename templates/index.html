@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAGadd AI</title>
+  <meta name="description" content="RAGadd AI: Upload documents and chat with them using advanced Retrieval Augmented Generation Pipeline and Agentic AI workflow. Get instant answers from your files with our AI-powered document chatbot.">
+  <meta name="keywords" content="RAGadd AI, ragadd ai, ragadd, RAG chatbot, agentic chatbot, AI, AI chatbot, AI document chat, upload document chatbot, retrieval augmented generation, document Q&A, AI assistant, file chat">
+  <meta property="og:title" content="RAGadd AI – Chat with Your Documents Instantly">
+  <meta property="og:description" content="RAGadd AI uses advanced RAG Pipelines and Agentic AI technology to let you upload documents and chat with them naturally. Perfect for research, business, productivity, and all tasks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ragadd-ai.web.app/">
+  <meta property="og:image" content="https://ragadd-ai.web.app/static/RAGadd.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RAGadd AI – AI Document Chatbot">
+  <meta name="twitter:description" content="Upload documents and chat with them using RAGadd AI's advanced retrieval augmented generation and agentic ai technology.">
+  <meta name="twitter:image" content="https://ragadd-ai.web.app/static/RAGadd.png">
+
+  <meta name="author" content="RAGadd AI">
+  <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      --primary: #008779;
+      --primary-dark: #00bdaa;
+      --secondary: #eeeeee;
+      --dark: #1f2937;
+      --light: #f9fafb;
+      --success: #10b981;
+      --error: #ef4444;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --bg-primary: #ffffff;
+      --bg-secondary: #f3f4f6;
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --border-color: #b8b8b8;
+      --shadow-color: rgba(62, 61, 61, 0.1);
+      --card-bg: #ffffff;
+      --input-bg: #ffffff;
+      --scrollbar-thumb: #e5e7eb;
+      --scrollbar-thumb-hover: #d1d5db;
+      --table-scrollbar-thumb: #c0c0c0;
+      --table-scrollbar-thumb-hover: #a0a0a0;
+      --button-bg: #ffffff;
+      --button-border: #1f2937;
+      --button-hover: #f3f4f6;
+      --button-text: #1f2937;
+    }
+    
+    [data-theme="dark"] {
+      --primary: #008779;
+      --primary-dark: #00bdaa;
+      --secondary: #000000;
+      --dark: #f9fafb;
+      --light: #1f2937;
+      --success: #10b981;
+      --error: #f87171;
+      --border: #4b5563;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      --bg-primary: #1f2937;
+      --bg-secondary: #000000;
+      --text-primary: #f9fafb;
+      --text-secondary: #d1d5db;
+      --border-color: #000000;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+      --card-bg: #131010;
+      --input-bg: #4b5563;
+      --scrollbar-thumb: #6b7280;
+      --scrollbar-thumb-hover: #9ca3af;
+      --table-scrollbar-thumb: #c0c0c0;
+      --table-scrollbar-thumb-hover: #a0a0a0;
+      --button-bg: #000000;
+      --button-border: #ffffff;
+      --button-hover: #374151;
+      --button-text: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    body {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    header {
+      background-color: var(--card-bg);
+      box-shadow: var(--shadow);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      z-index: 100;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      flex-wrap: nowrap;
+      gap: 1rem;
+    }
+    
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .download-chat-btn {
+      background-color: var(--button-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: var(--button-text);
+    }
+    
+    .download-chat-btn span,
+    .dropdown-toggle span {
+      color: inherit;
+    }
+
+    .download-chat-btn:hover:not(:disabled),
+    .dropdown-toggle:hover {
+      background-color: #008779;
+      color: white;
+    }
+    
+    .download-chat-btn:disabled {
+      cursor: not-allowed;
+    }
+    
+    
+    .close-upload-btn {
+      display: none;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      z-index: 10;
+    }
+    
+    .theme-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-toggle {
+      background-color: var(--button-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      min-width: 50px;
+      color: var(--button-text);
+    }
+    
+    .dropdown-options {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      width: 120px;
+      margin-top: 0.25rem;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .dropdown-options.show {
+      display: flex;
+    }
+    
+    .dropdown-options .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      text-align: left;
+      width: 100%;
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--button-text);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    
+    .dropdown-options .theme-option:last-child {
+      border-bottom: none;
+    }
+    
+    .dropdown-options .theme-option:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    [data-theme="light"] .theme-option {
+      color: #1f2937;
+    }
+
+    [data-theme="dark"] .theme-option {
+      color: #ffffff;
+    }
+
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .logo-icon {
+      font-size: 2rem;
+    }
+    .logo-png {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .app-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    [data-theme="light"] .app-name {
+      color: #1f2937;
+    }
+
+    [data-theme="dark"] .app-name,
+    [data-theme="system"] .app-name {
+      color: #ffffff;
+    }
+    
+    main {
+      flex: 1;
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 1rem;
+      gap: 1.5rem;
+      overflow: hidden;
+      min-height: 0;
+    }
+    
+    .upload-section {
+      flex: 0 0 300px;
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      height: fit-content;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    .upload-section.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 0;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .upload-area {
+      border: 2px dashed var(--border-color);
+      border-radius: 0.5rem;
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 1rem;
+      background-color: var(--bg-secondary);
+    }
+    
+    .upload-area:hover {
+      border-color: var(--primary);
+      background-color: color-mix(in srgb, var(--primary) 10%, var(--bg-secondary));
+    }
+    
+    .upload-area p {
+      margin: 0.5rem 0;
+      color: var(--text-secondary);
+    }
+    
+    .file-types {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+    
+    .upload-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+    
+    .file-list {
+      max-height: 120px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+
+    .file-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .file-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .file-list::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .file-list::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+    
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      background-color: var(--secondary);
+      margin-bottom: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+    
+    .file-icon {
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+    
+    .file-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+    
+    .upload-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+    
+    .upload-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .upload-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .mobile-upload-btn {
+      background-color: var(--button-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.35rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--button-text);
+      transition: all 0.3s ease;
+      width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+   
+    }
+
+    .mobile-upload-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background-color: var(--button-hover);
+    }
+
+    .mobile-upload-btn:disabled {
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .chat-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      background-color: var(--card-bg);
+      transition: all 0.3s ease;
+    }
+    
+    .chat-messages {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-height: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    
+    .chat-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .chat-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .chat-messages::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .chat-messages::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+    
+    .message {
+      max-width: 80%;
+      padding: 1rem;
+      border-radius: 1rem;
+      animation: fadeIn 0.3s ease;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    
+    .user-message {
+      align-self: flex-end;
+      background-color: var(--primary);
+      color: white;
+      border-bottom-right-radius: 0.25rem;
+    }
+    
+    .assistant-message {
+      align-self: flex-start;
+      background-color: var(--secondary);
+      border-bottom-left-radius: 0.25rem;
+      color: var(--text-primary);
+    }
+    
+    .error-message {
+      align-self: flex-start;
+      background-color: color-mix(in srgb, var(--error) 20%, var(--card-bg));
+      color: var(--error);
+      border-bottom-left-radius: 0.25rem;
+    }
+    
+    .assistant-message strong {
+      font-weight: bold;
+    }
+    
+    .assistant-message em {
+      font-style: italic;
+    }
+    
+    .assistant-message code {
+      font-family: monospace;
+      background-color: rgba(84, 84, 84, 0.315);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+    }
+    
+    .assistant-message pre {
+      background-color: rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      margin: 0.5rem 0;
+    }
+
+    .assistant-message table {
+      border-collapse: collapse;
+      margin: 0;
+    }
+    
+    .assistant-message th, 
+    .assistant-message td {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.5rem;
+      text-align: left;
+    }
+    .assistant-message thead {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: inherit;
+    }
+    
+    .assistant-message th {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .assistant-message ul,
+    .assistant-message ol {
+      padding-left: 1.5rem;
+      margin: 0.5rem 0;
+    }
+    
+    .assistant-message li {
+      margin-bottom: 0.25rem;
+    }
+
+    .assistant-message .table-container {
+      display: block;
+      overflow-x: auto;
+      max-width: 100%;
+      margin: 0.5rem 0;
+      border-radius: 0.25rem;
+      transform: translateZ(0);
+    }
+
+    .assistant-message .table-container table {
+      min-width: 100%;
+      width: auto;
+      border-collapse: collapse;
+      margin: 0;
+    }
+
+    .assistant-message th,
+    .assistant-message td {
+      white-space: nowrap;
+      word-break: break-word;
+      padding: 0.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .assistant-message .table-container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .assistant-message .table-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .assistant-message .table-container::-webkit-scrollbar-thumb {
+      background-color: var(--table-scrollbar-thumb);
+      border-radius: 4px;
+    }
+
+    .assistant-message .table-container::-webkit-scrollbar-thumb:hover {
+      background-color: var(--table-scrollbar-thumb-hover);
+    }
+
+    [data-theme="dark"] .assistant-message th {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+ 
+    [data-theme="dark"] .assistant-message .table-container::-webkit-scrollbar-thumb {
+      background-color: #4b5563;
+    }
+
+    [data-theme="dark"] .assistant-message .table-container::-webkit-scrollbar-thumb:hover {
+      background-color: #6b7280;
+    }
+
+    .api-key-container {
+      margin-top: 0.5rem;
+      gap: 8px;
+      margin-bottom: 0 !important;
+    }
+
+    .api-key-input {
+      margin-bottom: 0 !important;
+    }
+
+    .activate-btn {
+      margin-bottom: 0 !important;
+    }
+
+    .api-key-status {
+      margin-top: 6px;
+    }
+
+    .api-key-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .api-key-heading {
+      margin-bottom: 0.10rem;
+    }
+
+    .api-key-steps {
+      margin: 0.10rem 0;
+      padding-left: 1.25rem;
+    }
+
+    .api-key-steps li {
+      margin-bottom: 0.10rem;
+    }
+
+    .api-key-container {
+      margin-top: 0.25rem;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+
+    .api-key-input {
+      margin-bottom: 0;
+    }
+
+    .activate-btn {
+      margin-bottom: 0;
+    }
+
+    .api-key-status {
+      margin-top: 6px;
+    }
+
+    
+    .chat-input-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-color);
+      background-color: transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      max-width: 98%;
+      margin: 0 auto 1rem;
+    }
+    
+    .chat-input-container:focus-within {
+      outline: none;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    
+    .chat-input {
+      display: flex;
+      padding: 0.75rem;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      background-color: transparent;
+      position: relative;
+    }
+    
+    .chat-input textarea {
+      flex: 1;
+      padding: 0.85rem 1.15rem;
+      border: none;
+      border-radius: 0.375rem;
+      resize: none;
+      height: auto;
+      min-height: 50px;
+      max-height: 400px;
+      font-family: inherit;
+      background-color: transparent;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+      overflow-x: hidden;
+      overflow-y: auto;
+      line-height: 1.5;
+      font-size: 18px;
+    }
+    
+    .chat-input textarea:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    
+    .chat-input textarea::placeholder {
+      color: var(--text-secondary);
+    }
+
+
+    .chat-input textarea::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .chat-input textarea::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .chat-input textarea::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .chat-input textarea::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+
+    .chat-input textarea::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+    
+    .send-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 0.5rem;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      bottom: 0.75rem;
+      right: 0.75rem;
+    }
+    
+    .send-btn:hover:not(:disabled) {
+      background-color: var(--primary-dark);
+    }
+    
+    .send-btn:disabled {
+      cursor: not-allowed;
+    }
+    
+    .stop-btn {
+      background-color: var(#008779);
+      border: 1px solid var(--border-color);
+    }
+    
+    .stop-btn:hover:not(:disabled) {
+      background-color: #000000;
+    }
+    
+    .send-icon {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .download-icon {
+      width: 1.4em;
+      height: 1.4em;
+      transition: filter 0.3s ease;
+    }
+
+    [data-theme="light"] .download-icon {
+      filter: invert(0);
+    }
+
+    [data-theme="dark"] .download-icon {
+      filter: invert(1);
+    }
+
+    .download-chat-btn:hover:not(:disabled) .download-icon {
+      filter: invert(1);
+    }
+    
+    .stop-icon {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .status {
+      padding: 0.5rem;
+      text-align: center;
+      border-radius: 0.25rem;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .status-success {
+      background-color: color-mix(in srgb, var(--success) 20%, var(--card-bg));
+      color: var(--success);
+    }
+    
+    .status-error {
+      background-color: color-mix(in srgb, var(--error) 20%, var(--card-bg));
+      color: var(--error);
+    }
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .loading-animation {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .loading-animation svg {
+      width: 40px;
+      height: 40px;
+      color: var(--primary);
+    }
+    
+    .api-key-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .api-key-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-primary);
+      font-size: 16px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .api-key-input {
+      background-color: #000000;
+      border-color: #4b5563;
+    }
+    
+    .activate-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+      padding: 0.5rem 1.5rem;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+    }
+
+    .activate-btn span {
+      margin-right: 8px;
+    }
+    
+    .activate-btn:hover:not(:disabled) {
+      background-color: var(--primary-dark);
+    }
+
+    .activate-btn:active:not(:disabled) {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .activate-btn:disabled {
+      cursor: not-allowed;
+    }
+
+    .activate-btn:not(:disabled):active {
+      transform: translateY(0);
+    }
+
+    .activate-btn .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      margin-right: 8px;
+    }
+    
+    .api-key-status {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .api-key-status.success {
+      color: var(--success);
+    }
+    
+    .api-key-status.error {
+      color: var(--error);
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 0.75rem 1rem;
+      }
+
+      .app-name {
+        font-size: 1.5rem;
+      }
+      .header-controls {
+        gap: 0.4rem;
+      }
+      .header-controls button,
+      .dropdown-toggle {
+        font-size: 0.75rem;
+      }
+
+      
+      .logo {
+        font-size: 1.25rem;
+      }
+      
+      .logo-icon {
+        font-size: 1.5rem;
+      }
+      
+      main {
+        flex-direction: column;
+        padding: 0.5rem;
+        gap: 1rem;
+      }
+      
+      .upload-section {
+        flex: 0 0 auto;
+        max-height: 40vh;
+        order: 2;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        max-height: 100vh;
+        padding: 3rem 1.5rem 1.5rem;
+        border-radius: 0;
+      }
+      
+      .upload-section.active {
+        display: block;
+      }
+      
+      .chat-section {
+        order: 1;
+        min-height: 50vh;
+      }
+      
+      .message {
+        max-width: 95%;
+      }
+      
+      .chat-input {
+        padding: 0.5rem;
+      }
+      
+      .chat-messages {
+        padding: 1rem;
+      }
+      
+      .mobile-upload-btn {
+        display: flex;
+      }
+      
+      .close-upload-btn {
+        display: block;
+      }
+      
+      .chat-section {
+        min-height: calc(100vh - 120px);
+      }
+      
+      .chat-input-container {
+        padding: 0.4rem;
+        max-width: 98%;
+      }
+      
+      .chat-input textarea {
+        padding: 0.75rem 3rem 0.75rem 1rem;
+      }
+      
+      .send-btn {
+        width: 36px;
+        height: 36px;
+        bottom: 0.65rem;
+        right: 0.65rem;
+      }
+      
+      .api-key-input {
+        padding: 10px;
+        font-size: 14px;
+      }
+      
+      .activate-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+
+      .header-controls {
+        gap: 0.50rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .upload-area {
+        padding: 1.5rem 0.5rem;
+      }
+      
+      .upload-icon {
+        font-size: 2rem;
+      }
+
+      .app-name {
+        font-size: 1.2rem;
+      }
+      .header-controls button,
+      .dropdown-toggle {
+        font-size: 0.7rem;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+      }
+
+      .activate-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        min-width: 160px;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="/static/Logo.png" alt="RAGadd AI Logo" class="logo-png">
+      <span class="app-name">RAGadd AI</span>
+    </div>
+    <div class="header-controls">
+      <button class="download-chat-btn" id="download-chat-btn" disabled>
+        <img src="static/download.svg" alt="Download" class="download-icon">
+      </button>
+      <button class="mobile-upload-btn" id="mobile-upload-btn" disabled>📁</button>
+      <div class="theme-dropdown">
+        <button class="dropdown-toggle" id="theme-toggle">
+          <span id="current-theme-icon">🖥️</span> <span>▼</span>
+        </button>
+        <div class="dropdown-options" id="theme-options">
+          <button class="theme-option" data-theme="system" title="System Theme">🖥️ System</button>
+          <button class="theme-option" data-theme="light" title="Light Theme">☀️ Light</button>
+          <button class="theme-option" data-theme="dark" title="Dark Theme">🌙 Dark</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <section class="upload-section" id="upload-section">
+      <button class="close-upload-btn" id="close-upload-btn">✕</button>
+      <h2 class="section-title">
+        <span>📤</span>
+        Upload Documents
+      </h2>
+      <div class="upload-area" id="drop-area">
+        <div class="upload-icon">📁</div>
+        <p>Drag & drop files here</p>
+        <p>or</p>
+        <button class="upload-btn" id="file-btn" disabled>Select Files</button>
+        <input type="file" id="file-input" multiple accept=".pdf,.txt,.docx,.doc,.csv,.xlsx,.ppt,.pptx,.html,.css,.js,.json,.py" style="display: none" disabled>
+        <div class="file-types">Supported formats: PDF, TXT, DOCX, DOC, CSV, XLSX, PPT, PPTX, HTML, CSS, JS, JSON, PY</div>
+      </div>
+      <div class="file-list" id="file-list"></div>
+      <button class="upload-btn" id="upload-btn" disabled>Process Documents</button>
+      <div id="upload-status"></div>
+    </section>
+    
+    <section class="chat-section">
+      <div class="chat-header">
+        <h2 class="section-title">
+          <span>💬</span>
+          Document Chat
+        </h2>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="message assistant-message api-key-block">
+          <p>🔑 Welcome to <b>RAGadd AI</b>!<br>      To get started:</p>
+          <ol class="api-key-steps">
+            <li>Get your API key from <a href="https://openrouter.ai/keys" target="_blank" style="color: var(--primary);">OpenRouter</a></li>
+            <li>Paste it below to activate the chat</li>
+            <li>Upload documents to start chatting</li>
+          </ol>
+          <div class="api-key-container">
+            <input 
+              type="password" 
+              id="api-key-input" 
+              class="api-key-input" 
+              placeholder="Paste your API key here" 
+            >
+            <button id="activate-btn" class="activate-btn">Activate API Key</button>
+            <div id="api-key-status" class="api-key-status"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-container">
+        <div class="chat-input">
+          <textarea 
+            id="chat-input" 
+            placeholder="Ask your documents..." 
+            rows="1"
+            disabled
+          ></textarea>
+          <button class="send-btn" id="send-btn" disabled>
+            <svg class="send-icon" id="send-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5"></line>
+              <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>
+            <svg class="stop-icon" id="stop-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none">
+              <rect x="6" y="6" width="12" height="12"></rect>
+            </svg>
+            <span id="send-spinner" class="spinner" style="display: none"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    // DOM Elements
+    const fileInput = document.getElementById('file-input');
+    const fileBtn = document.getElementById('file-btn');
+    const uploadBtn = document.getElementById('upload-btn');
+    const fileList = document.getElementById('file-list');
+    const uploadStatus = document.getElementById('upload-status');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const sendIcon = document.getElementById('send-icon');
+    const stopIcon = document.getElementById('stop-icon');
+    const sendSpinner = document.getElementById('send-spinner');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeOptions = document.getElementById('theme-options');
+    const mobileUploadBtn = document.getElementById('mobile-upload-btn');
+    const closeUploadBtn = document.getElementById('close-upload-btn');
+    const uploadSection = document.getElementById('upload-section');
+    const downloadChatBtn = document.getElementById('download-chat-btn');
+    const apiKeyInput = document.getElementById('api-key-input');
+    const activateBtn = document.getElementById('activate-btn');
+    const apiKeyStatus = document.getElementById('api-key-status');
+    
+    // State
+    let files = [];
+    let currentTheme = 'dark';
+    let abortController = null;
+    let chatHistory = [];
+    let isApiKeyActivated = false;
+    
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      currentTheme = savedTheme;
+      applyTheme(savedTheme);
+      updateThemeIcon(savedTheme);
+    }
+    
+    function applyTheme(theme) {
+      const html = document.documentElement;
+      if (theme === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      } else {
+        html.setAttribute('data-theme', theme);
+      }
+    }
+    
+    function updateThemeIcon(theme) {
+      const icons = {
+        system: '🖥️',
+        light: '☀️',
+        dark: '🌙'
+      };
+      document.getElementById('current-theme-icon').textContent = icons[theme];
+    }
+    
+    function setTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('theme', theme);
+      const dropdownOptions = document.getElementById('theme-options');
+      dropdownOptions.classList.remove('show');
+      applyTheme(theme);
+      updateThemeIcon(theme);
+      closeThemeDropdown();
+
+      void dropdownOptions.offsetWidth;
+      dropdown.classList.remove('show');
+      void dropdown.offsetWidth;
+      dropdown.classList.add('show');
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (currentTheme === 'system') applyTheme('system');
+    });
+    
+    function toggleThemeDropdown() {
+      themeOptions.classList.toggle('show');
+    }
+    
+    function closeThemeDropdown() {
+      themeOptions.classList.remove('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!themeToggle.contains(e.target) && !themeOptions.contains(e.target)) {
+        closeThemeDropdown();
+      }
+    });
+    
+    activateBtn.addEventListener('click', () => {
+      const apiKey = apiKeyInput.value.trim();
+      if (!apiKey) {
+        apiKeyStatus.textContent = 'Please enter your API key';
+        apiKeyStatus.className = 'api-key-status error';
+        return;
+      }
+
+      activateBtn.disabled = true;
+      activateBtn.innerHTML = '<span class="spinner" style="width: 20px; height: 20px;"></span> Activating...';
+      
+      fetch('/set-api-key', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ api_key: apiKey })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          apiKeyStatus.textContent = '✅ API key activated successfully!';
+          apiKeyStatus.className = 'api-key-status success';
+          isApiKeyActivated = true;
+
+          document.getElementById('upload-btn').disabled = false;
+          document.getElementById('chat-input').disabled = false;
+          document.getElementById('send-btn').disabled = false;
+          document.getElementById('file-btn').disabled = false;
+          document.getElementById('file-input').disabled = false;
+          document.getElementById('mobile-upload-btn').disabled = false;
+          uploadSection.classList.add('active');
+          
+          const apiKeyPrompt = chatMessages.querySelector('.assistant-message');
+          if (apiKeyPrompt) {
+            apiKeyPrompt.innerHTML = `
+              <p>✅ API key activated successfully!</p>
+              <p>You can now upload documents and start chatting.</p>
+            `;
+          }
+        } else {
+          apiKeyStatus.textContent = data.error || 'Failed to activate API key';
+          apiKeyStatus.className = 'api-key-status error';
+          activateBtn.disabled = false;
+          activateBtn.innerHTML = '<span>🔑</span> Activate API Key';
+        }
+      })
+      .catch(error => {
+        apiKeyStatus.textContent = 'Network error: ' + error.message;
+        apiKeyStatus.className = 'api-key-status error';
+        activateBtn.disabled = false;
+        activateBtn.innerHTML = '<span>🔑</span> Activate API Key';
+      });
+    });
+    
+    mobileUploadBtn.addEventListener('click', () => {
+      uploadSection.classList.add('active');
+      closeThemeDropdown();
+    });
+    
+    closeUploadBtn.addEventListener('click', () => {
+      uploadSection.classList.remove('active');
+    });
+    
+    fileBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', handleFileSelect);
+    uploadBtn.addEventListener('click', uploadFiles);
+    chatInput.addEventListener('keydown', handleKeyDown);
+    chatInput.addEventListener('input', handleTextareaInput);
+    sendBtn.addEventListener('click', sendMessage);
+    themeToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleThemeDropdown();
+    });
+    downloadChatBtn.addEventListener('click', downloadChatPDF);
+
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setTheme(btn.dataset.theme);
+      });
+    });
+
+    const dropArea = document.getElementById('drop-area');
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight() {
+      dropArea.style.borderColor = '#4f46e5';
+      dropArea.style.backgroundColor = '#f5f7ff';
+    }
+    
+    function unhighlight() {
+      dropArea.style.borderColor = '#e5e7eb';
+      dropArea.style.backgroundColor = '';
+    }
+    
+    dropArea.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const newFiles = dt.files;
+      addFiles(newFiles);
+    }
+    
+    function handleFileSelect(e) {
+      addFiles(e.target.files);
+    }
+    
+    function addFiles(newFiles) {
+      if (newFiles.length === 0) return;
+      for (let i = 0; i < newFiles.length; i++) {
+        const file = newFiles[i];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        const validExtensions = ['.pdf', '.txt', '.docx', '.doc', '.csv', '.xlsx', '.ppt', '.pptx', '.html', '.css', '.js', '.json', '.py'];
+        if (validExtensions.includes(ext)) {
+          if (!files.some(f => f.name === file.name && f.size === file.size)) {
+            files.push(file);
+          }
+        }
+      }
+      updateFileList();
+      uploadBtn.disabled = files.length === 0;
+    }
+    
+    function formatFileName(name) {
+      const lastDot = name.lastIndexOf('.');
+      if (lastDot === -1) return name;
+      const fileName = name.substring(0, lastDot);
+      const ext = name.substring(lastDot);
+      if (fileName.length > 10) {
+        return fileName.substring(0, 10) + '...' + ext;
+      }
+      return name;
+    }
+    
+    function updateFileList() {
+      fileList.innerHTML = '';
+      if (files.length === 0) {
+        fileList.innerHTML = '<p>No files selected</p>';
+        return;
+      }
+      files.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        let icon = '📄';
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        const iconMap = {
+          '.pdf': '📊',
+          '.docx': '📝',
+          '.doc': '📝',
+          '.csv': '📊',
+          '.xlsx': '📊',
+          '.ppt': '📊',
+          '.pptx': '📊',
+          '.html': '🌐',
+          '.css': '🎨',
+          '.js': '📜',
+          '.json': '📋',
+          '.py': '🐍'
+        };
+        if (iconMap[ext]) icon = iconMap[ext];
+        const formattedName = formatFileName(file.name);
+        fileItem.innerHTML = `
+          <span class="file-icon">${icon}</span>
+          <span class="file-name" title="${file.name}">${formattedName}</span>
+          <button class="remove-btn" data-index="${index}" style="margin-left: auto; background: none; border: none; color: #ef4444; cursor: pointer;">✕</button>
+        `;
+        fileList.appendChild(fileItem);
+      });
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const index = parseInt(e.target.dataset.index);
+          files.splice(index, 1);
+          updateFileList();
+          uploadBtn.disabled = files.length === 0;
+        });
+      });
+    }
+    
+    function uploadFiles() {
+      if (files.length === 0) return;
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = 'Processing...';
+      const formData = new FormData();
+      files.forEach(file => formData.append('files[]', file));
+      fetch('/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          uploadStatus.innerHTML = `<div class="status status-success">${data.message}</div>`;
+          chatInput.disabled = false;
+          sendBtn.disabled = false;
+          addMessage('assistant', data.message);
+          if (window.innerWidth <= 768) {
+            uploadSection.classList.remove('active');
+          }
+        } else {
+          uploadStatus.innerHTML = `<div class="status status-error">${data.error}</div>`;
+        }
+      })
+      .catch(error => {
+        uploadStatus.innerHTML = `<div class="status status-error">Error: ${error.message}</div>`;
+      })
+      .finally(() => {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'Process Documents';
+      });
+    }
+    
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+    
+    function handleTextareaInput() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+      if (this.scrollHeight > 400) {
+        this.style.overflowY = 'scroll';
+      } else {
+        this.style.overflowY = 'hidden';
+      }
+    }
+
+    const customRenderer = new marked.Renderer();
+    customRenderer.table = function(header, body) {
+      return `<div class="table-container"><table><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
+
+    };
+
+    marked.setOptions({
+      renderer: customRenderer,
+      mangle: false,
+      headerIds: false,
+      breaks: true,
+      gfm: true,
+      smartLists: true,
+      smartypants: true
+    });
+    
+    function addMessage(role, content) {
+      const trimmedContent = content.trim();
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${role}-message`;
+      if (role === 'assistant') {
+        messageDiv.innerHTML = marked.parse(trimmedContent);
+      } else {
+        messageDiv.textContent = trimmedContent;
+      }
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      chatHistory.push({
+        role: role,
+        content: trimmedContent,
+        timestamp: new Date().toISOString()
+      });
+      updateDownloadButtonState();
+    }
+    
+    function updateDownloadButtonState() {
+      const hasUserMessages = chatHistory.some(msg => msg.role === 'user');
+      downloadChatBtn.disabled = !hasUserMessages;
+    }
+    
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+      addMessage('user', message);
+      chatInput.value = '';
+      chatInput.style.height = 'auto';
+      addLoadingAnimation();
+      sendIcon.style.display = 'none';
+      stopIcon.style.display = 'block';
+      sendBtn.classList.add('stop-btn');
+      chatInput.disabled = true;
+      abortController = new AbortController();
+      fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: message}),
+        credentials: 'include',
+        signal: abortController.signal
+      })
+      .then(response => response.json())
+      .then(data => {
+        const loadingEl = document.getElementById('loading-animation');
+        if (loadingEl) loadingEl.remove();
+        if (data.response) {
+          addMessage('assistant', data.response);
+        } else if (data.error) {
+          addMessage('error', data.error);
+        }
+      })
+      .catch(error => {
+        const loadingEl = document.getElementById('loading-animation');
+        if (loadingEl) loadingEl.remove();
+        if (error.name !== 'AbortError') {
+          addMessage('error', `Network error: ${error.message}`);
+        }
+      })
+      .finally(() => {
+        sendIcon.style.display = 'block';
+        stopIcon.style.display = 'none';
+        sendBtn.classList.remove('stop-btn');
+        chatInput.disabled = false;
+        chatInput.focus();
+        abortController = null;
+      });
+    }
+    
+    function stopGenerating() {
+      if (abortController) {
+        abortController.abort();
+        const loadingEl = document.getElementById('loading-animation');
+        if (loadingEl) loadingEl.remove();
+        sendIcon.style.display = 'block';
+        stopIcon.style.display = 'none';
+        sendBtn.classList.remove('stop-btn');
+        chatInput.disabled = false;
+        chatInput.focus();
+        abortController = null;
+      }
+    }
+    
+    sendBtn.addEventListener('click', function(e) {
+      if (stopIcon.style.display === 'block') {
+        e.preventDefault();
+        stopGenerating();
+      }
+    });
+    
+    function addLoadingAnimation() {
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'message assistant-message loading-animation';
+      loadingDiv.id = 'loading-animation';
+      loadingDiv.innerHTML = `
+        <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: currentColor;">
+          <circle cx="4" cy="12" r="2" fill="currentColor">
+            <animate id="spinner_qFRN" begin="0;spinner_OcgL.end+0.25s" attributeName="cy" calcMode="spline" dur="0.6s" values="12;6;12" keySplines=".33,.66,.66,1;.33,0,.66,.33" />
+          </circle>
+          <circle cx="12" cy="12" r="2" fill="currentColor">
+            <animate begin="spinner_qFRN.begin+0.1s" attributeName="cy" calcMode="spline" dur="0.6s" values="12;6;12" keySplines=".33,.66,.66,1;.33,0,.66,.33" />
+          </circle>
+          <circle cx="20" cy="12" r="2" fill="currentColor">
+            <animate id="spinner_OcgL" begin="spinner_qFRN.begin+0.2s" attributeName="cy" calcMode="spline" dur="0.6s" values="12;6;12" keySplines=".33,.66,.66,1;.33,0,.66,.33" />
+          </circle>
+        </svg>
+      `;
+      chatMessages.appendChild(loadingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function downloadChatPDF() {
+        const { jsPDF } = window.jspdf;
+        let totalHeight = 60;
+        const margin = 20;
+        const bubblePadding = 20;
+        const lineHeight = 24;
+        const messageSpacing = 25;
+
+        const tempPdf = new jsPDF();
+        tempPdf.setFontSize(16);
+
+        function parseMarkdownForHeight(content, pdf) {
+            const lines = content.split('\n');
+            let totalHeight = 0;
+            const maxTextWidth = window.innerWidth - margin * 2 - bubblePadding * 2;
+            let inCodeBlock = false;
+            let inTable = false;
+            let tableRows = [];
+
+            for (let line of lines) {
+                const originalLine = line;
+                line = line.trim();
+
+                if (!line) {
+                    totalHeight += lineHeight * 0.5;
+                    continue;
+                }
+
+                if (line.startsWith('```')) {
+                    if (!inCodeBlock) {
+                        inCodeBlock = true;
+                        totalHeight += lineHeight * 0.5;
+                    } else {
+                        inCodeBlock = false;
+                        totalHeight += lineHeight * 0.5;
+                    }
+                    continue;
+                }
+
+                if (inCodeBlock) {
+                    const codeLines = pdf.splitTextToSize(originalLine, maxTextWidth - 20);
+                    totalHeight += codeLines.length * lineHeight;
+                    continue;
+                }
+
+                if (line.includes('|') && line.split('|').length > 2) {
+                    if (!inTable) {
+                        inTable = true;
+                        tableRows = [];
+                        totalHeight += lineHeight * 0.5;
+                    }
+
+                    const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+                    if (!cells.every(cell => cell.match(/^-+$/))) {
+                        tableRows.push(cells);
+                    }
+                    continue;
+                } else if (inTable) {
+                    let tableHeight = 0;
+                    const colWidth = maxTextWidth / (tableRows.length > 0 ? tableRows[0].length : 1);
+
+                    for (let row of tableRows) {
+                        let maxRowHeight = 30;
+                        for (let cell of row) {
+                            const cellLines = pdf.splitTextToSize(cell || '', colWidth - 16);
+                            const cellHeight = cellLines.length * 18 + 16; // 18 is line height for 14px font
+                            maxRowHeight = Math.max(maxRowHeight, cellHeight);
+                        }
+                        tableHeight += maxRowHeight;
+                    }
+
+                    totalHeight += tableHeight;
+                    totalHeight += lineHeight * 0.5;
+                    inTable = false;
+                    tableRows = [];
+                }
+
+                if (line.startsWith('##')) {
+                    const headerText = line.replace(/^##\s*/, '');
+                    const headerLines = pdf.splitTextToSize(headerText, maxTextWidth);
+                    totalHeight += headerLines.length * lineHeight * 1.5; // Headers are larger
+                }
+                else if (line.startsWith('- ')) {
+                    const listText = line.replace(/^-\s*/, '');
+                    const listLines = pdf.splitTextToSize(listText, maxTextWidth - 20); // Account for indent
+                    totalHeight += listLines.length * lineHeight;
+                }
+                else {
+                    const textLines = pdf.splitTextToSize(line, maxTextWidth);
+                    totalHeight += textLines.length * lineHeight;
+                }
+            }
+
+            if (inTable && tableRows.length > 0) {
+                let tableHeight = 0;
+                const colWidth = maxTextWidth / (tableRows.length > 0 ? tableRows[0].length : 1);
+
+                for (let row of tableRows) {
+                    let maxRowHeight = 30;
+                    for (let cell of row) {
+                        const cellLines = pdf.splitTextToSize(cell || '', colWidth - 16);
+                        const cellHeight = cellLines.length * 18 + 16;
+                        maxRowHeight = Math.max(maxRowHeight, cellHeight);
+                    }
+                    tableHeight += maxRowHeight;
+                }
+
+                totalHeight += tableHeight;
+                totalHeight += lineHeight * 0.5;
+            }
+
+            return totalHeight + bubblePadding * 2;
+        }
+
+        for (const msg of chatHistory) {
+            if (msg.role === 'system') continue;
+
+            let content = msg.content;
+
+            if (msg.role === 'assistant') {
+                const bubbleHeight = parseMarkdownForHeight(content, tempPdf);
+                totalHeight += bubbleHeight + messageSpacing;
+            } else {
+                const textLines = tempPdf.splitTextToSize(content, window.innerWidth - margin * 2 - bubblePadding * 2);
+                const bubbleHeight = textLines.length * lineHeight + bubblePadding * 2;
+                totalHeight += bubbleHeight + messageSpacing;
+            }
+        }
+
+        totalHeight += 60;
+
+        const minHeight = Math.max(totalHeight, 1000);
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [window.innerWidth, minHeight]
+        });
+
+        const userBubbleColor = '#008779';
+        const assistantBubbleColor = '#eeeeee';
+        const userTextColor = '#ffffff';
+        const assistantTextColor = '#1f2937';
+        const errorBubbleColor = '#fef2f2';
+        const errorTextColor = '#ef4444';
+        const timestampColor = '#6b7280';
+        const headerColor = '#008779';
+        const codeBackgroundColor = '#f8f9fa';
+        const codeTextColor = '#d63384';
+        const maxWidth = pdf.internal.pageSize.getWidth() - margin * 2;
+        let yPos = margin;
+        const bubbleRadius = 16;
+
+        pdf.setFillColor(headerColor);
+        pdf.rect(0, 0, pdf.internal.pageSize.getWidth(), 70, 'F');
+        pdf.setFontSize(24);
+        pdf.setTextColor(255, 255, 255);
+        pdf.text('Chat History', pdf.internal.pageSize.getWidth() / 2, 40, null, 'center');
+
+        yPos = 90;
+
+        function renderMarkdownContent(content, pdf, startX, startY, maxWidth, textColor) {
+            const lines = content.split('\n');
+            let currentY = startY;
+            let inCodeBlock = false;
+            let tableRows = [];
+            let inTable = false;
+
+            for (let line of lines) {
+                const originalLine = line;
+                line = line.trim();
+
+                if (!line) {
+                    currentY += lineHeight * 0.5;
+                    continue;
+                }
+
+                if (line.startsWith('```')) {
+                    if (!inCodeBlock) {
+                        inCodeBlock = true;
+                        currentY += lineHeight * 0.5;
+                    } else {
+                        inCodeBlock = false;
+                        currentY += lineHeight * 0.5;
+                    }
+                    continue;
+                }
+
+                if (inCodeBlock) {
+                    const codeLines = pdf.splitTextToSize(originalLine, maxWidth - 20);
+                    for (let codeLine of codeLines) {
+                        pdf.setFillColor(codeBackgroundColor);
+                        pdf.rect(startX - 5, currentY - 15, maxWidth + 10, lineHeight + 5, 'F');
+                        pdf.setFont('courier');
+                        pdf.setFontSize(14);
+                        pdf.setTextColor(codeTextColor);
+                        pdf.text(codeLine, startX + 5, currentY);
+
+                        currentY += lineHeight;
+                    }
+
+                    pdf.setFont('helvetica');
+                    pdf.setFontSize(16);
+                    pdf.setTextColor(textColor);
+                    continue;
+                }
+
+                if (line.includes('|') && line.split('|').length > 2) {
+                    const cells = line.split('|').map(cell => cell.trim()).filter(cell => cell);
+                    if (!inTable) {
+                        inTable = true;
+                        tableRows = [];
+                        currentY += lineHeight * 0.5;
+                    }
+                    if (cells.every(cell => cell.match(/^-+$/))) {
+                        continue;
+                    }
+                    tableRows.push(cells);
+                    continue;
+                } else if (inTable) {
+                    currentY = renderTable(pdf, tableRows, startX, currentY, maxWidth, textColor);
+                    currentY += lineHeight * 0.5;
+                    inTable = false;
+                    tableRows = [];
+                }
+
+                if (line.startsWith('##')) {
+                    const headerText = line.replace(/^##\s*/, '');
+                    const headerLines = pdf.splitTextToSize(headerText, maxWidth);
+
+                    pdf.setFontSize(20);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setTextColor(textColor);
+
+                    for (let headerLine of headerLines) {
+                        pdf.text(headerLine, startX, currentY);
+                        currentY += lineHeight * 1.2;
+                    }
+
+                    pdf.setFontSize(16);
+                    pdf.setFont('helvetica', 'normal');
+                    currentY += lineHeight * 0.3;
+                    continue;
+                }
+
+                if (line.startsWith('- ')) {
+                    const listText = line.replace(/^-\s*/, '');
+                    const listLines = pdf.splitTextToSize(listText, maxWidth - 20);
+
+                    pdf.setTextColor(textColor);
+                    pdf.text('•', startX, currentY);
+
+                    for (let i = 0; i < listLines.length; i++) {
+                        renderFormattedText(pdf, listLines[i], startX + 15, currentY, maxWidth - 15, textColor);
+                        if (i < listLines.length - 1) {
+                            currentY += lineHeight;
+                        }
+                    }
+                    currentY += lineHeight;
+                    continue;
+                }
+
+                const textLines = pdf.splitTextToSize(line, maxWidth);
+                for (let textLine of textLines) {
+                    renderFormattedText(pdf, textLine, startX, currentY, maxWidth, textColor);
+                    currentY += lineHeight;
+                }
+            }
+
+            if (inTable && tableRows.length > 0) {
+                currentY = renderTable(pdf, tableRows, startX, currentY, maxWidth, textColor);
+                currentY += lineHeight * 0.5;
+            }
+
+            return currentY;
+        }
+
+        function renderFormattedText(pdf, text, x, y, maxWidth, textColor) {
+            const segments = parseTextSegments(text);
+            let currentX = x;
+            let currentY = y;
+            const lineStartX = x;
+
+            for (const segment of segments) {
+                pdf.setTextColor(textColor);
+                let textWidth = 0;
+
+                if (segment.type === 'bold') {
+                    pdf.setFont('helvetica', 'bold');
+                    textWidth = pdf.getTextWidth(segment.text);
+
+                    if (currentX + textWidth > x + maxWidth && currentX > lineStartX) {
+                        currentY += lineHeight;
+                        currentX = lineStartX;
+                    }
+
+                    pdf.text(segment.text, currentX, currentY);
+                    currentX += textWidth;
+                    pdf.setFont('helvetica', 'normal');
+                } else if (segment.type === 'italic') {
+                    pdf.setFont('helvetica', 'italic');
+                    textWidth = pdf.getTextWidth(segment.text);
+
+                    if (currentX + textWidth > x + maxWidth && currentX > lineStartX) {
+                        currentY += lineHeight;
+                        currentX = lineStartX;
+                    }
+
+                    pdf.text(segment.text, currentX, currentY);
+                    currentX += textWidth;
+                    pdf.setFont('helvetica', 'normal');
+                } else if (segment.type === 'code') {
+                    pdf.setFont('courier');
+                    pdf.setFontSize(14);
+                    textWidth = pdf.getTextWidth(segment.text);
+                    const codeWidth = textWidth + 6;
+
+                    if (currentX + codeWidth > x + maxWidth && currentX > lineStartX) {
+                        currentY += lineHeight;
+                        currentX = lineStartX;
+                    }
+
+                    pdf.setFillColor(codeBackgroundColor);
+                    pdf.rect(currentX - 3, currentY - 12, codeWidth, 16, 'F');
+                    pdf.setTextColor(codeTextColor);
+                    pdf.text(segment.text, currentX, currentY);
+                    currentX += codeWidth;
+                    pdf.setFont('helvetica');
+                    pdf.setFontSize(16);
+                    pdf.setTextColor(textColor);
+                } else {
+                    const words = segment.text.split(' ');
+
+                    for (let i = 0; i < words.length; i++) {
+                        const word = words[i] + (i < words.length - 1 ? ' ' : '');
+                        textWidth = pdf.getTextWidth(word);
+
+                        if (currentX + textWidth > x + maxWidth && currentX > lineStartX) {
+                            currentY += lineHeight;
+                            currentX = lineStartX;
+                        }
+
+                        pdf.text(word, currentX, currentY);
+                        currentX += textWidth;
+                    }
+                }
+            }
+
+            return currentY;
+        }
+
+        function parseTextSegments(text) {
+            const segments = [];
+            let currentIndex = 0;
+
+            while (currentIndex < text.length) {
+                const codeMatch = text.slice(currentIndex).match(/^`([^`]+)`/);
+                if (codeMatch) {
+                    segments.push({ type: 'code', text: codeMatch[1] });
+                    currentIndex += codeMatch[0].length;
+                    continue;
+                }
+
+                const boldMatch = text.slice(currentIndex).match(/^\*\*([^*]+)\*\*/);
+                if (boldMatch) {
+                    segments.push({ type: 'bold', text: boldMatch[1] });
+                    currentIndex += boldMatch[0].length;
+                    continue;
+                }
+
+                const italicMatch = text.slice(currentIndex).match(/^\*([^*]+)\*/);
+                if (italicMatch) {
+                    segments.push({ type: 'italic', text: italicMatch[1] });
+                    currentIndex += italicMatch[0].length;
+                    continue;
+                }
+
+                let nextSpecial = text.slice(currentIndex).search(/[*`]/);
+                if (nextSpecial === -1) {
+                    segments.push({ type: 'regular', text: text.slice(currentIndex) });
+                    break;
+                } else {
+                    segments.push({ type: 'regular', text: text.slice(currentIndex, currentIndex + nextSpecial) });
+                    currentIndex += nextSpecial;
+                }
+            }
+
+            return segments;
+        }
+
+        function renderTable(pdf, rows, startX, startY, maxWidth, textColor) {
+            if (rows.length === 0) return startY;
+
+            const cellPadding = 8;
+            const minCellHeight = 30;
+            const colWidth = maxWidth / rows[0].length;
+            let currentY = startY;
+            const rowHeights = [];
+            pdf.setFontSize(14);
+
+            for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                let maxRowHeight = minCellHeight;
+
+                for (let colIndex = 0; colIndex < rows[rowIndex].length; colIndex++) {
+                    const cellText = rows[rowIndex][colIndex] || '';
+                    const cellLines = pdf.splitTextToSize(cellText, colWidth - cellPadding * 2);
+                    const cellContentHeight = cellLines.length * 18 + cellPadding * 2; // 18 is line height for 14px font
+                    maxRowHeight = Math.max(maxRowHeight, cellContentHeight);
+                }
+
+                rowHeights.push(maxRowHeight);
+            }
+
+            for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                const rowHeight = rowHeights[rowIndex];
+
+                if (rowIndex === 0) {
+                    pdf.setFillColor(248, 249, 250);
+                    pdf.rect(startX, currentY, maxWidth, rowHeight, 'F');
+                } else {
+                    if (rowIndex % 2 === 1) {
+                        pdf.setFillColor(248, 249, 250);
+                        pdf.rect(startX, currentY, maxWidth, rowHeight, 'F');
+                    }
+                }
+
+                pdf.setDrawColor(200, 200, 200);
+                pdf.setLineWidth(1);
+                pdf.rect(startX, currentY, maxWidth, rowHeight, 'S');
+
+                for (let colIndex = 0; colIndex < rows[rowIndex].length; colIndex++) {
+                    const cellX = startX + colIndex * colWidth;
+                    const cellText = rows[rowIndex][colIndex] || '';
+
+                    if (colIndex < rows[rowIndex].length - 1) {
+                        pdf.setDrawColor(200, 200, 200);
+                        pdf.line(cellX + colWidth, currentY, cellX + colWidth, currentY + rowHeight);
+                    }
+
+                    if (rowIndex === 0) {
+                        pdf.setFont('helvetica', 'bold');
+                        pdf.setFontSize(14);
+                    } else {
+                        pdf.setFont('helvetica', 'normal');
+                        pdf.setFontSize(14);
+                    }
+
+                    if (textColor === '#ffffff') {
+                        pdf.setTextColor(50, 50, 50);
+                    } else {
+                        pdf.setTextColor(textColor);
+                    }
+
+                    const cellLines = pdf.splitTextToSize(cellText, colWidth - cellPadding * 2);
+                    let cellTextY = currentY + cellPadding + 14;
+
+                    for (let lineIndex = 0; lineIndex < cellLines.length; lineIndex++) {
+                        if (cellTextY < currentY + rowHeight - cellPadding) {
+                            pdf.text(cellLines[lineIndex], cellX + cellPadding, cellTextY);
+                            cellTextY += 18;
+                        }
+                    }
+                }
+
+                currentY += rowHeight;
+            }
+
+            pdf.setFont('helvetica', 'normal');
+            pdf.setFontSize(16);
+
+            return currentY;
+        }
+
+        for (const msg of chatHistory) {
+            if (msg.role === 'system') continue;
+
+            const isUser = msg.role === 'user';
+            const isError = msg.role === 'error';
+            const bubbleColor = isUser ? userBubbleColor :
+                isError ? errorBubbleColor : assistantBubbleColor;
+            const textColor = isUser ? userTextColor :
+                isError ? errorTextColor : assistantTextColor;
+
+            let content = msg.content;
+            let bubbleHeight;
+
+            if (msg.role === 'assistant') {
+                bubbleHeight = parseMarkdownForHeight(content, pdf);
+            } else {
+                const textLines = pdf.splitTextToSize(content, maxWidth - bubblePadding * 2);
+                bubbleHeight = textLines.length * lineHeight + bubblePadding * 2;
+            }
+
+            pdf.setFillColor(bubbleColor);
+            pdf.setDrawColor(200, 200, 200);
+            pdf.roundedRect(
+                isUser ? pdf.internal.pageSize.getWidth() - maxWidth - margin : margin,
+                yPos,
+                maxWidth,
+                bubbleHeight,
+                bubbleRadius,
+                bubbleRadius,
+                'FD'
+            );
+
+            pdf.setFontSize(12);
+            pdf.setTextColor(timestampColor);
+            pdf.text(
+                isUser ? 'You' : (isError ? 'Error' : 'Assistant'),
+                isUser ? pdf.internal.pageSize.getWidth() - margin - 10 : margin + 10,
+                yPos - 8
+            );
+
+            const date = new Date(msg.timestamp);
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            pdf.text(
+                timeString,
+                isUser ? pdf.internal.pageSize.getWidth() - margin - 50 : margin + 50, // More space
+                yPos - 8
+            );
+
+            pdf.setFontSize(16);
+            pdf.setTextColor(textColor);
+            const textY = yPos + bubblePadding + 12;
+            const textX = isUser ?
+                pdf.internal.pageSize.getWidth() - maxWidth - margin + bubblePadding :
+                margin + bubblePadding;
+
+            if (msg.role === 'assistant') {
+                renderMarkdownContent(content, pdf, textX, textY, maxWidth - bubblePadding * 2, textColor);
+            } else {
+                const textLines = pdf.splitTextToSize(content, maxWidth - bubblePadding * 2);
+                let currentY = textY;
+                for (let i = 0; i < textLines.length; i++) {
+                    pdf.text(textLines[i], textX, currentY);
+                    currentY += lineHeight;
+                }
+            }
+
+            yPos += bubbleHeight + messageSpacing;
+        }
+
+        pdf.setFontSize(12);
+        pdf.setTextColor(100, 100, 100);
+        pdf.text(
+            `Generated by RAGadd AI • ${new Date().toLocaleDateString()}`,
+            pdf.internal.pageSize.getWidth() / 2,
+            yPos + 40,
+            null,
+            'center'
+        );
+
+        pdf.save('RAGadd_AI_Chat_History.pdf');
+    }
+
+    initTheme();
+    updateFileList();
+  </script>
+</body>
+</html>
