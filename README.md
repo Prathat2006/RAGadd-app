@@ -1,6 +1,6 @@
 # RAGadd AI - Document Chat Assistant
 
-![RAGadd AI](RAGadd.png)
+![RAGadd AI](static/RAGadd.png)
 
 ## 🚀 Overview
 
@@ -216,7 +216,7 @@ If you find this project helpful, please consider giving it a star!
 ---
 
 <div align="center">
-  <img src="RAGadd.png" alt="RAGadd AI" width="100"/>
+  <img src="static/RAGadd.png" alt="RAGadd AI" width="100"/>
   <br>
   <strong>RAGadd AI - Transform Your Documents into Interactive Knowledge</strong>
   <br>
