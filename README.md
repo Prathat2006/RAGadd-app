@@ -48,7 +48,7 @@ Before installation, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/HiMahendraBeniwal/RAGadd-app.git
+git clone https://github.com/Prathat2006/RAGadd-app.git
 cd RAGadd-app
 ```
 
