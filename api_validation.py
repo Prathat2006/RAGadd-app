@@ -1,7 +1,3 @@
-import os
-
-
-
 import requests
 def validate_groq_api_key(api_key: str) -> bool:
     """Return True if Groq API key is valid, else False."""

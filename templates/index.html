@@ -6,14 +6,14 @@
   <title>RAGadd AI</title>
   <meta name="description" content="RAGadd AI: Upload documents and chat with them using advanced Retrieval Augmented Generation Pipeline and Agentic AI workflow. Get instant answers from your files with our AI-powered document chatbot.">
   <meta name="keywords" content="RAGadd AI, ragadd ai, ragadd, RAG chatbot, agentic chatbot, AI, AI chatbot, AI document chat, upload document chatbot, retrieval augmented generation, document Q&A, AI assistant, file chat">
-  <meta property="og:title" content="RAGadd AI – Chat with Your Documents Instantly">
+  <meta property="og:title" content="RAGadd AI - Chat with Your Documents Instantly">
   <meta property="og:description" content="RAGadd AI uses advanced RAG Pipelines and Agentic AI technology to let you upload documents and chat with them naturally. Perfect for research, business, productivity, and all tasks.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://ragadd-ai.web.app/">
   <meta property="og:image" content="https://ragadd-ai.web.app/static/RAGadd.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="RAGadd AI – AI Document Chatbot">
+  <meta name="twitter:title" content="RAGadd AI - AI Document Chatbot">
   <meta name="twitter:description" content="Upload documents and chat with them using RAGadd AI's advanced retrieval augmented generation and agentic ai technology.">
   <meta name="twitter:image" content="https://ragadd-ai.web.app/static/RAGadd.png">
 
@@ -1096,9 +1096,27 @@
       }
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<!-- markdown-it for Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+
+<!-- MathJax for LaTeX -->
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    startup: {
+      typeset: false
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
 </head>
 <body>
   <header>
@@ -1526,40 +1544,35 @@
       }
     }
 
-    const customRenderer = new marked.Renderer();
-    customRenderer.table = function(header, body) {
-      return `<div class="table-container"><table><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
-
-    };
-
-    marked.setOptions({
-      renderer: customRenderer,
-      mangle: false,
-      headerIds: false,
-      breaks: true,
-      gfm: true,
-      smartLists: true,
-      smartypants: true
-    });
+// Initialize markdown-it
+const md = new window.markdownit({
+  html: false,
+  linkify: true,
+  typographer: true,
+  breaks: true
+});
     
-    function addMessage(role, content) {
-      const trimmedContent = content.trim();
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `message ${role}-message`;
-      if (role === 'assistant') {
-        messageDiv.innerHTML = marked.parse(trimmedContent);
-      } else {
-        messageDiv.textContent = trimmedContent;
-      }
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      chatHistory.push({
-        role: role,
-        content: trimmedContent,
-        timestamp: new Date().toISOString()
-      });
-      updateDownloadButtonState();
+function addMessage(role, content) {
+  const trimmedContent = content.trim();
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${role}-message`;
+  if (role === 'assistant') {
+    messageDiv.innerHTML = md.render(trimmedContent);
+    if (window.MathJax) {
+      MathJax.typesetPromise([messageDiv]).catch(err => console.warn('MathJax error:', err));
     }
+  } else {
+    messageDiv.textContent = trimmedContent;
+  }
+  chatMessages.appendChild(messageDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatHistory.push({
+    role: role,
+    content: trimmedContent,
+    timestamp: new Date().toISOString()
+  });
+  updateDownloadButtonState();
+}
     
     function updateDownloadButtonState() {
       const hasUserMessages = chatHistory.some(msg => msg.role === 'user');

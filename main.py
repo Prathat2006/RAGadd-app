@@ -2,7 +2,7 @@ import os
 import tempfile
 import shutil
 import uuid
-import requests
+# import requests
 from flask import send_from_directory
 from flask import Flask, request, jsonify, render_template, session
 from langchain_community.document_loaders import (
@@ -126,24 +126,37 @@ def create_agent_components(vector_store):
     # Retrieval component
     retriever = vector_store.as_retriever(search_kwargs={"k": 5})
     
-    # Prompt templates
+        # Prompt templates
     retrieval_prompt = ChatPromptTemplate.from_template(
-        "You are a helpful document assistant called RAGadd AI . Given the following context:\n\n{context}\n\n"
-        "Your purpose is to help users understand and interact with their uploaded documents.\n"
-        "Answer this question based on the context: {question}\n"
-        "**Accuracy First**: Extract relevant details, summarize clearly, and maintain factual correctness.\n"
-        "Use Markdown formatting in your response for:\n"
-        "- Headings (## Heading)\n"
-        "- Bold (**text**)\n"
-        "- Italic (*text*)\n"
-        "- Lists (- item)\n"
-        "- Code blocks (```code```)\n"
-        "- Tables (| Header | ... |)\n"
-        "Format any code snippets, tables, or important concepts appropriately.\n"
-        "Structure complex answers with sections, tables, or code snippets when needed.\n"
-        "**Polite & Professional**: Always respond in a clear, concise, and professional but very easy to understand tone.\n"
-        "Your main goal is to provide the **most accurate, easy to understand, well-structured, and context-grounded response possible** to the user's query.\n"
+        """You are **RAGadd AI**, a helpful and intelligent document assistant.
+
+    Given the following context:
+    {context}
+
+    Your role is to help users understand, summarize, and interact with their uploaded documents.
+
+    ---
+
+    ### Instructions:
+    1. **Accuracy First** - Use only the provided context to answer the user’s question truthfully and precisely. Do not fabricate or guess missing details.  
+    2. **Clarity & Structure** - Present your response in a clear, easy-to-understand, and logically organized manner.  
+    3. **Formatting Guidelines**:
+       - Use Markdown formatting.
+       - Use LaTeX `$...$` for inline math and `$$...$$` for block math.
+       - Format code, tables, and key terms appropriately for readability.
+    4. **Tone** - Maintain a polite, professional, and approachable tone suitable for non-technical readers.
+
+    ---
+
+    ### User Question:
+    {question}
+
+    ### Your Response:
+    Provide the most **accurate**, **clear**, and **context-grounded** answer possible.
+    If relevant, structure your answer with headings, bullet points, or examples.
+    """
     )
+
     
     # Tools
     def retrieve_docs(state: AgentState):

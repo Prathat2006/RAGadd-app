@@ -7,10 +7,10 @@ from urllib.request import urlopen, Request
 from urllib.error import URLError
 from contextlib import closing
 
-def _has_executable(name: str) -> bool:
+def has_executable(name: str) -> bool:
     return shutil.which(name) is not None
 
-def _runs_successfully(cmd: list[str]) -> bool:
+def runs_successfully(cmd: list[str]) -> bool:
     try:
         p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
         return p.returncode == 0
@@ -35,7 +35,7 @@ def _http_ok(url: str, expect_json=False) -> bool:
     except Exception:
         return False
 
-def _port_open(host: str, port: int) -> bool:
+def port_open(host: str, port: int) -> bool:
     try:
         with socket.create_connection((host, port), timeout=1.5):
             return True
@@ -47,13 +47,13 @@ def is_ollama_installed() -> bool:
     True if Ollama CLI is callable OR the local Ollama server responds.
     """
     # 1) CLI presence
-    if _has_executable("ollama") and _runs_successfully(["ollama", "--version"]):
+    if has_executable("ollama") and runs_successfully(["ollama", "--version"]):
         return True
 
     # 2) Server banner / health (works whether started by desktop app or 'ollama serve')
     #    Root returns 'Ollama is running' when active; API commonly at /api/*
     for host in ("127.0.0.1", "localhost"):
-        if _port_open(host, 11434):
+        if port_open(host, 11434):
             if _http_ok(f"http://{host}:11434/"):           # health/banner
                 return True
             if _http_ok(f"http://{host}:11434/api/tags", expect_json=True):  # list models
@@ -67,7 +67,7 @@ def is_lmstudio_installed(base_url: str | None = None) -> bool:
     """
     # 1) CLI presence (LM Studio ships a CLI called 'lms')
     #    Either 'lms --version' or 'lms status' should work once LM Studio has been run at least once.
-    if _has_executable("lms") and (_runs_successfully(["lms", "--version"]) or _runs_successfully(["lms", "status"])):
+    if has_executable("lms") and (runs_successfully(["lms", "--version"]) or runs_successfully(["lms", "status"])):
         return True
 
     # 2) Server check (OpenAI-compatible API, default port 1234)
